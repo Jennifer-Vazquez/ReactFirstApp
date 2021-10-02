@@ -14,15 +14,23 @@ function MyApp() {
      });
  }, [] );
 
-    function removeOneCharacter (index) {
+async function removeOneCharacter (index) {
       const userId = characters[index].id;
-      const response = axios.delete('http://localhost:5000/users' + userId)
+      const url = 'http://localhost:5000/users/' + userId
+      const response = await axios.delete(url)
+      console.log(response)
+
+      if(response.status === 204){
       const updated = characters.filter((character, i) => {
           return i !== index
         });
         setCharacters(updated);
+        return response
       }
-
+      else if(response.status === 404){
+        console.log('Resource not found');
+      }
+    }
       // function updateList(person) {
 
       //   setCharacters([...characters, person]);

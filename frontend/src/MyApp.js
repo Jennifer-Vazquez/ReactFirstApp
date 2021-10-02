@@ -15,15 +15,18 @@ function MyApp() {
  }, [] );
 
     function removeOneCharacter (index) {
+      const userId = characters[index].id;
+      const response = axios.delete('http://localhost:5000/users' + userId)
       const updated = characters.filter((character, i) => {
           return i !== index
         });
         setCharacters(updated);
       }
 
-      function updateList(person) {
-        setCharacters([...characters, person]);
-      }
+      // function updateList(person) {
+
+      //   setCharacters([...characters, person]);
+      // }
 
       async function fetchAll(){
         try {
@@ -40,6 +43,7 @@ function MyApp() {
      async function makePostCall(person){
       try {
          const response = await axios.post('http://localhost:5000/users', person);
+         console.log(response.data);
          return response;
       }
       catch (error) {
@@ -50,10 +54,16 @@ function MyApp() {
 
    function updateList(person) { 
     makePostCall(person).then( result => {
-    if (result)
-       setCharacters([...characters, person] );
+      console.log(result.status);
+      console.log(result);
+    if (result && (result.status === 201)){
+      console.log(result);
+      setCharacters([...characters, result.data] );
+    }
     });
  }
+
+ 
  
       return (
         <div className="container">

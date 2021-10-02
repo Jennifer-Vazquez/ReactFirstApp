@@ -61,11 +61,8 @@ async function removeOneCharacter (index) {
    }
 
    function updateList(person) { 
-    makePostCall(person).then( result => {
-      console.log(result.status);
-      console.log(result);
+    makePostCall(person).then( result => { 
     if (result && (result.status === 201)){
-      console.log(result);
       setCharacters([...characters, result.data] );
     }
     });
